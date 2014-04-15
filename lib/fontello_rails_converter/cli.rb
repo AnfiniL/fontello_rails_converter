@@ -46,9 +46,8 @@ module FontelloRailsConverter
       if zip_file_exists?
         Zip::File.open(@options[:zip_file]) do |zipfile|
           grouped_files = zipfile.group_by{ |file| file.to_s.split("/")[1] }
-
           copy_and_convert_stylesheets(zipfile, grouped_files['css'])
-          copy_font_files(zipfile, grouped_files['font'])
+          copy_font_files(zipfile, grouped_files['font'] | grouped_files['config.json'])
           copy_and_convert_icon_guide(zipfile, grouped_files['demo.html'].first)
         end
       end
